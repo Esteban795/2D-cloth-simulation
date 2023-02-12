@@ -1,6 +1,6 @@
 # CLOTH SIMULATION
 
-## DISCLAIMER : at first, it was supposed to be only a small part of my [physics-simulation](https://github.com/Esteban795/2D-cloth-simulation) repository, but it turned out pretty cool so I decided to make it an entire project. See commits history there if you want the full progress of the work.
+## DISCLAIMER : at first, it was supposed to be only a small part of my [physics-simulation](https://github.com/Esteban795/physics-simulations) repository, but it turned out pretty cool so I decided to make it an entire project. See commits history there if you want the full progress of the work.
 
 <br />
 <br />
