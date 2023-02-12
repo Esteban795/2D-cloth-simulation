@@ -1,6 +1,6 @@
-# CLOTH SIMULATION
+# CLOTH SIMULATION (made in C with SDL2) ~~I don't know how to use OpenGL~~
 
-## DISCLAIMER : at first, it was supposed to be only a small part of my [physics-simulation](https://github.com/Esteban795/physics-simulations) repository, but it turned out pretty cool so I decided to make it an entire project. See commits history there if you want the full progress of the work.
+## DISCLAIMER : at first, it was supposed to be only a small part of my [physics-simulation](https://github.com/Esteban795/physics-simulations) repository, but it turned out pretty cool so I decided to make it an entire project. See commits history there if you want the full work progress.
 
 <br />
 <br />
@@ -11,7 +11,7 @@
 - Runs on an Intel Celeron with two physical and logical cores, @1.10 Ghz. Adds something like 5% CPU usage to the system (and 2% on a ryzen 5 3600 @3.7 Ghz, according to my tests)
 
 
-- Mass & Spring system, simulated by Hooke's law. See `update_sticks` function in `src/sticks.c`
+- Masses & Springs system, simulated by Hooke's law using Verlet integration. See `update_sticks` function in `src/sticks.c`, and `update_point` function in `src/point.c`.
 
 <br />
 <br />
@@ -28,7 +28,7 @@ if you're on Linux.
 
 On MacOS, I have no clue if it works since I couldn't test it.
 
-- GCC. or any C compiler should do the job. I've tested with GCC and Clang, and it seems to work fine for me. Don't be afraid to open an issue if it doesn't.
+- GCC. or any C compiler should do the job. I've tested with GCC and Clang, and it seems to work fine for me. Don't be afraid to open an issue if it doesn't. (Even if I have no idea if I can solve it).
 
 <br />
 <br />
@@ -66,5 +66,5 @@ make run ROWS="NumberOfRowsItShouldHave" COLUMNS="SameButColumns"
 
 ## What's left to do ?
 
-- Allow the user to tear apart the cloth when it is dragged too far
-- Why not try in 3D ? I'll see that I guess
+- ~~Allow the user to tear apart the cloth when it is dragged too far~~ ✅
+- Why not try in 3D ? I'll see that I guess, ~~once I learn OpenGL~~

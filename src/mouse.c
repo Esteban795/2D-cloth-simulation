@@ -1,6 +1,8 @@
 #include "../include/mouse.h"
 
-
+/*
+Nothing is worth explaining here.
+*/
 mouse* mouse_create(float x,float y){
     mouse* m = malloc(sizeof(mouse));
     vect2 pos = {.x = x,.y = y};

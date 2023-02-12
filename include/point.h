@@ -9,6 +9,10 @@
 #define SPACING 10
 
 
+/*
+Why is the struct stick here you might ask ? Because Stick needs Point and Point needs Stick, so that was the only work around that I found.
+*/
+
 struct Stick;
 struct Point;
 
@@ -37,8 +41,6 @@ struct Point {
 typedef struct Stick stick;
 typedef struct Point point;
 
-
-vect2 get_diff(point* p1,point* p2);
 
 void print_point(point p);
 

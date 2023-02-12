@@ -1,24 +1,12 @@
 #include "../include/point.h"
 
-
-/*
-Get euclidean distance between two points.
-*/
-
-/*
-Returns a vect2 with difference of x and y
-*/
-vect2 get_diff(point* p1,point* p2){
-    vect2 temp = {.x = p1->x - p2->x,.y = p1->y - p2->y};
-    return temp;
-}
-
 void print_point(point p){
     printf("position : (%.3f,%.3f), prev position : (%.3f,%.3f), pinned : %d\n",p.x,p.y,p.prevx,p.prevy,p.is_pinned);
 }
 
-
-
+/*
+Creates a rows * columns matrix of points, that will be the main component of our cloth (even if they aren't actually drawn)
+*/
 point** create_points(int startX,int startY,int rows,int columns,int spacing){
     point** points = malloc(sizeof(point*) * rows);
     for (int i = 0; i < rows;i++){
@@ -35,6 +23,9 @@ point** create_points(int startX,int startY,int rows,int columns,int spacing){
     return points;
 }
 
+/* 
+To make sure the points don't get out of the window during the update_point function.
+*/
 void keep_inside_view(point* p,int width,int height){
     if (p->x > width){
         p->x = width;
@@ -51,6 +42,22 @@ void keep_inside_view(point* p,int width,int height){
 }
 
 
+/*
+Verlet integration here.
+
+First, we try to detect if the point are inside the cursor range.
+If yes, we set is_selected field from sticks on true, and it will change their color when we will draw them.
+
+Then, we try to to see if the user is trying to drag the cloth (only if the point is selected of course)
+If yes, we just test if they dragged it so far that it should break. Both cases, we apply a "repulsive" ? restoring ? force that brings 
+everything back in place, but smoothly.
+
+The right click is the tearing part, without any drag. It is pretty straight-forward.
+
+If it is pinned, the point doesn't move so we don't do anything.
+
+Finally, we apply Verlet integration with a drag factor to not mess everything up.
+*/
 void update_point(point* p,float dt,float drag, vect2 acceleration,float elasticity,mouse* m,const int SCREEN_WIDTH,const int SCREEN_HEIGHT){
     vect2 mouse_pos = m->pos;
     vect2 cursorToPosDir = {.x = p->x - mouse_pos.x,.y = p->y - mouse_pos.y};
@@ -64,7 +71,7 @@ void update_point(point* p,float dt,float drag, vect2 acceleration,float elastic
     if (m->left_button_down && p->is_selected){
         vect2 difference = diff(m->pos,m->prev_pos);
 
-        if (fabsf(difference.x) > elasticity && fabsf(difference.y) > elasticity){
+        if (fabsf(difference.x) > elasticity || fabsf(difference.y) > elasticity){
             if (p->s1 != NULL) p->s1->is_active = false;
             if (p->s2 != NULL) p->s2->is_active = false;
         }
@@ -83,7 +90,7 @@ void update_point(point* p,float dt,float drag, vect2 acceleration,float elastic
         p->y = p->inity;
         return;
     }
-    float new_x = p->x + (p->x - p->prevx) * (1.0f - drag) + acceleration.x * (1.0f - drag) * dt * dt;
+    float new_x = p->x + (p->x - p->prevx) * (1.0f - drag) + acceleration.x * (1.0f - drag) * dt * dt; // Verlet integration
     float new_y = p->y + (p->y - p->prevy) * (1.0f - drag) + acceleration.y * (1.0f - drag) * dt * dt;
     p->prevx = p->x;
     p->prevy = p->y;

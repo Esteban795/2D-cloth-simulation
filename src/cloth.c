@@ -1,7 +1,10 @@
 #include "../include/cloth.h"
 
 
-
+/*
+The actual cloth structure, which regroups both points, sticks and acceleration that needs to be applied to the cloth.
+There are several other parameters, but you can easily deduce what they do.
+*/
 cloth* cloth_new(float drag,float elasticity,int rows,int columns){
     cloth* c = malloc(sizeof(cloth));
     vect2 acceleration = {.x = 0.0f,.y = 981.0f};
@@ -10,20 +13,20 @@ cloth* cloth_new(float drag,float elasticity,int rows,int columns){
     c->elasticity = elasticity;
     c->rows = rows;
     c->columns = columns;
-    c->particles = create_points(100,100,rows,columns,SPACING);
+    c->points = create_points(100,100,rows,columns,SPACING);
     int nb_sticks;
-    c->sticks = create_sticks(c->particles,rows,columns,&nb_sticks);
+    c->sticks = create_sticks(c->points,rows,columns,&nb_sticks);
     c->nb_sticks = nb_sticks;
     return c;
 }
-//Cloth 
+
 
 void cloth_update(cloth* c,mouse* m){
     float dt = 0.016f;
-    c->acceleration.x *= 0.8f;
+    c->acceleration.x *= 0.8f; // to diminish x acceleration due to wind impulse (left or right arrow)
     for (int i = 0;i < c->rows;i++){
         for (int j = 0; j < c->columns;j++){
-            update_point(&c->particles[i][j],dt,c->drag,c->acceleration,c->elasticity,m,1200,700);
+            update_point(&c->points[i][j],dt,c->drag,c->acceleration,c->elasticity,m,1200,700);
         }
     }
     for (int i = 0; i < c->nb_sticks;i++){
@@ -47,9 +50,9 @@ void cloth_delete(cloth* c){
         free(c->sticks[i]);
     }
     for (int i = 0; i < c->rows;i++){
-        free(c->particles[i]);
+        free(c->points[i]);
     }
     free(c->sticks);
-    free(c->particles);
+    free(c->points);
     free(c);
 }

@@ -11,7 +11,7 @@ struct Cloth {
     vect2 acceleration;
     float drag;
     float elasticity;
-    point** particles;
+    point** points;
     int rows;
     int columns;
     stick** sticks;
