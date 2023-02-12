@@ -63,10 +63,11 @@ void update_point(point* p,float dt,float drag, vect2 acceleration,float elastic
 
     if (m->left_button_down && p->is_selected){
         vect2 difference = diff(m->pos,m->prev_pos);
-        if (difference.x > elasticity) difference.x = elasticity;
-        if (difference.x < -elasticity) difference.x = -elasticity;
-        if (difference.y > elasticity) difference.y = elasticity;
-        if (difference.y < -elasticity) difference.y = -elasticity;
+
+        if (fabsf(difference.x) > elasticity && fabsf(difference.y) > elasticity){
+            if (p->s1 != NULL) p->s1->is_active = false;
+            if (p->s2 != NULL) p->s2->is_active = false;
+        }
         p->prevx = p->x - difference.x;
         p->prevy = p->y - difference.y;
     }

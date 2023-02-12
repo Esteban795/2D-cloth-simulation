@@ -88,7 +88,7 @@ void application_render(application* app){
 
 
 int main_loop(SDL_Renderer* renderer,int rows,int columns){
-    application* app = application_create(renderer,0.01f,10.0f,rows,columns);
+    application* app = application_create(renderer,0.015f,30.0f,rows,columns);
     while (true){
         if (events_handling(app,app->m) == 1) break;
         application_update(app);
